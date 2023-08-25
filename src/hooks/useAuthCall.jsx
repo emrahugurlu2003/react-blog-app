@@ -55,16 +55,18 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_APP_BASE_URL}/account/auth/login/`,
+        `${import.meta.env.VITE_APP_BASE_URL}/users/auth/login/`,
         userData
       );
       dispatch(loginSuccess(data));
-      toastSuccessNotify("login islemi basarili");
+      toastSuccessNotify("login işlemi başarılı");
       navigate("/stock");
     } catch (error) {
       console.log(error.message);
       dispatch(fetchFail());
-      toastErrorNotify(error.response.data.non_field_errors[0]);
+      toastErrorNotify(
+        `"login işlemi başarısız. Aşağıdaki hata raporuna bakınız:  " ${error.response.data.non_field_errors[0]}`
+      );
     }
   };
 
