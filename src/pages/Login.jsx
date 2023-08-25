@@ -11,6 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Formik, Form } from "formik";
+import { object, string } from "yup";
+import useAuthCall from "../hooks/useAuthCall";
 //import { useFirebaseBtnStyles } from "@mui-treasury/styles/button/firebase";
 //import useButtonStyles from "../styles/SubmitBtn.styles.js";
 
@@ -32,27 +35,24 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const myTheme = createTheme({
-//   palette: {
-//     primary: {
-//       light: "#757ce8",
-//       main: "#3f50b5",
-//       dark: "#002884",
-//       contrastText: "#fff",
-//     },
-//     secondary: {
-//       light: "#ff7961",
-//       main: "#f44336",
-//       dark: "#ba000d",
-//       contrastText: "#000",
-//     },
-//   },
-// });
-
-export default function SignInSide() {
+export default function Login() {
+  const { login } = useAuthCall();
   //const myButtonStyle = useButtonStyles();
+
+  //! harici validasyon şeması
+  const loginSchema = object({
+    email: string()
+      .email("Lutfen geçerli bir email giriniz")
+      .required("Bu alan zorunludur"),
+    password: string()
+      .required("Bu alan zorunludur")
+      .min(8, "En az 8 karakter girilmelidir")
+      .max(16, "En fazla 16 karakter girilmelidir")
+      .matches(/\d+/, "En az bir rakam içermelidir.")
+      .matches(/[a-z]/, "En az bir küçük harf içermelidir.")
+      .matches(/[A-Z]/, "En az bir büyük harf içermelidir.")
+      .matches(/[!,?{}><%&$#£+-.]+/, "En az bir özel karekter içermelidir."),
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -100,6 +100,8 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+
+          {/* 
           <Box
             component="form"
             //noValidate
@@ -143,7 +145,62 @@ export default function SignInSide() {
               </Grid>
             </Grid>
             <Copyright sx={{ mt: 5 }} />
-          </Box>
+          </Box> */}
+
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={loginSchema}
+            onSubmit={(values, action) => {
+              login(values);
+              action.resetForm();
+              action.setSubmitting(false);
+            }}
+          >
+            {({ handleChange, handleBlur, values, touched, errors }) => (
+              <Form>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <TextField
+                    label="Email"
+                    name="email"
+                    id="email"
+                    type="email"
+                    variant="outlined"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={errors.email}
+                  />
+                  <TextField
+                    label="password"
+                    name="password"
+                    id="password"
+                    type="password"
+                    variant="outlined"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={errors.password}
+                  />
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ mt: 3, mb: 2, backgroundColor: "tertiary.main" }}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              </Form>
+            )}
+          </Formik>
+          <Grid container justifyContent="center">
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
       </Grid>
     </Grid>
