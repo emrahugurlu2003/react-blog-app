@@ -7,13 +7,12 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Formik, Form } from "formik";
 import { object, string } from "yup";
 import useAuthCall from "../hooks/useAuthCall";
+import { useHistory } from "react-router-dom";
 //import { useFirebaseBtnStyles } from "@mui-treasury/styles/button/firebase";
 //import useButtonStyles from "../styles/SubmitBtn.styles.js";
 
@@ -26,8 +25,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/emrahugurlu2003">
+        emrahugurlu
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -53,17 +52,8 @@ export default function Login() {
       .matches(/[A-Z]/, "En az bir büyük harf içermelidir.")
       .matches(/[!,?{}><%&$#£+-.]+/, "En az bir özel karekter içermelidir."),
   });
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     const data = new FormData(event.currentTarget);
-  //     console.log({
-  //       email: data.get("email"),
-  //       password: data.get("password"),
-  //     });
-  //   };
 
   return (
-    // <ThemeProvider theme={myTheme}>
     <Grid container component="main" sx={{ height: "95vh", width: "95vw" }}>
       <CssBaseline />
       <Grid
@@ -101,57 +91,11 @@ export default function Login() {
             Sign in
           </Typography>
 
-          {/* 
-          <Box
-            component="form"
-            //noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              //classes={myButtonStyle}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: "tertiary.main" }}
-            >
-              Sign In
-            </Button>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5 }} />
-          </Box> */}
-
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={loginSchema}
             onSubmit={(values, action) => {
-              login(values);
+              login(values); // Calling login function
               action.resetForm();
               action.setSubmitting(false);
             }}
@@ -201,9 +145,9 @@ export default function Login() {
               </Link>
             </Grid>
           </Grid>
+          <Copyright sx={{ mt: 5 }} />
         </Box>
       </Grid>
     </Grid>
-    // </ThemeProvider>
   );
 }
