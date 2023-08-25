@@ -53,14 +53,14 @@ export default function Login() {
       .matches(/[A-Z]/, "En az bir büyük harf içermelidir.")
       .matches(/[!,?{}><%&$#£+-.]+/, "En az bir özel karekter içermelidir."),
   });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  //   const handleSubmit = (event) => {
+  //     event.preventDefault();
+  //     const data = new FormData(event.currentTarget);
+  //     console.log({
+  //       email: data.get("email"),
+  //       password: data.get("password"),
+  //     });
+  //   };
 
   return (
     // <ThemeProvider theme={myTheme}>
