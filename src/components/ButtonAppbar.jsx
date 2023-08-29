@@ -7,12 +7,28 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
+import useAuthCall from "../hooks/useAuthCall";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 //import Logo from "/FavIconLogo1Compressed.jpg";
 
 export default function ButtonAppBar() {
+  const { logout } = useAuthCall();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    //console.log("logout öncesi", logout);
+    logout();
+  };
+  const handleLogin = () => {
+    navigate("/login");
+    // <Navigate to="/login" />;
+  };
   //? destruct etmeden açıkça yazarak consume etme
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log("currentUser:", currentUser);
+  const currentUserInfo = useSelector((state) => state.auth.userInfo);
+  //console.log("currentUser:", currentUser);
+  //console.log("currentUserInfo:", currentUserInfo);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "tertiary.main" }}>
@@ -43,12 +59,15 @@ export default function ButtonAppBar() {
           </IconButton>
           <Box sx={{ marginLeft: "auto" }}>
             {/* Ternary şeklinde yazarsak: */}
-            {currentUser?.email ? (
+            {/* {console.log("ternary oncesinde:", currentUserInfo?.email)} */}
+            {currentUserInfo?.email ? (
               <Button color="inherit" onClick={handleLogout}>
                 Logout
               </Button>
             ) : (
-              <Button color="inherit">Login</Button>
+              <Button color="inherit" onClick={handleLogin}>
+                Login
+              </Button>
             )}
           </Box>
         </Toolbar>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -9,7 +8,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { Formik } from "formik";
 import RegisterForm, { registerSchema } from "../components/RegisterForm";
-import image from "../assets/result.svg";
 import useAuthCall from "../hooks/useAuthCall";
 import { useSelector } from "react-redux";
 
@@ -20,15 +18,17 @@ export const Register = () => {
     <Container component="main" sx={{ height: "95vh", width: "95vw" }}>
       <Grid
         container
-        justifyContent="center"
+        justifyContent="space-between"
         direction="row-reverse"
-        rowSpacing={{ sm: 3 }}
-        sx={{
-          height: "100vh",
-          p: 2,
-        }}
+        sx={{ height: "100%", p: 2 }}
       >
-        <Grid item xs={12} sm={10} md={6}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={6}
+          sx={{ flex: 1, maxWidth: "100%", padding: "1rem" }}
+        >
           <Avatar
             sx={{
               backgroundColor: "secondary.light",
@@ -37,7 +37,7 @@ export const Register = () => {
               height: 40,
             }}
           >
-            <LockIcon size="30" />
+            <LockIcon />
           </Avatar>
           <Typography
             variant="h4"
@@ -49,7 +49,6 @@ export const Register = () => {
           </Typography>
 
           <Formik
-            //*initialValues statelerin başlangıç değerlerinin olduğu yer tekrar state oluşturma ihtiyacı olmuyor
             initialValues={{
               username: "",
               first_name: "",
@@ -60,7 +59,6 @@ export const Register = () => {
               image_link: "",
             }}
             validationSchema={registerSchema}
-            //*onsubmit içinde yazılan values ismi ile initialValue içindeki statelerin bilgilerine erişirsin
             onSubmit={(values, actions) => {
               register({ ...values, password2: values.password });
               actions.resetForm();
@@ -74,9 +72,21 @@ export const Register = () => {
           </Box>
         </Grid>
 
-        <Grid item xs={0} sm={3} md={6}>
+        <Grid
+          item
+          sx={{
+            display: { xs: "none", sm: "flex" },
+            flex: 1,
+            maxWidth: "100%",
+            padding: "1rem",
+          }}
+        >
           <Container>
-            <img src={image} alt="" />
+            <img
+              src="/Register.jpg"
+              alt=""
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
           </Container>
         </Grid>
       </Grid>

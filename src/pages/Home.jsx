@@ -34,7 +34,7 @@ function Copyright(props) {
   );
 }
 
-export default function Login() {
+export default function Home() {
   const { login } = useAuthCall();
   //const myButtonStyle = useButtonStyles();
 
@@ -140,7 +140,7 @@ export default function Login() {
           </Formik>
           <Grid container justifyContent="center">
             <Grid item>
-              <Link href="register" variant="body2">
+              <Link href="#" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -48,9 +48,9 @@ const useAuthCall = () => {
 
     // console.log(import.meta.env.VITE_API_KEY)
     // console.log(import.meta.env.VITE_API_KEY_PROD)
-    console.log(userData);
-    console.log(import.meta.env);
-    console.log(`${import.meta.env.VITE_APP_BASE_URL}/account/auth/login/`);
+    //console.log(userData);
+    //console.log(import.meta.env);
+    //console.log(`${import.meta.env.VITE_APP_BASE_URL}/account/auth/login/`);
 
     dispatch(fetchStart());
     try {
@@ -60,7 +60,7 @@ const useAuthCall = () => {
       );
       dispatch(loginSuccess(data));
       toastSuccessNotify("login işlemi başarılı");
-      navigate("/stock");
+      navigate("/");
     } catch (error) {
       console.log(error.message);
       dispatch(fetchFail());
@@ -73,7 +73,9 @@ const useAuthCall = () => {
   const logout = async () => {
     dispatch(fetchStart());
     try {
-      await axios.post(`${import.meta.env.VITE_BASE_URL}/account/auth/logout/`);
+      await axios.post(
+        `${import.meta.env.VITE_APP_BASE_URL}/users/auth/logout/`
+      );
       dispatch(logoutSuccess());
       toastSuccessNotify("logout islemi basarili");
       navigate("/");
@@ -88,12 +90,12 @@ const useAuthCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/account/register/`,
+        `${import.meta.env.VITE_APP_BASE_URL}/users/register/`,
         userData
       );
       dispatch(registerSuccess(data));
       toastSuccessNotify("kayit islemi basarili");
-      navigate("/stock");
+      navigate("/");
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());

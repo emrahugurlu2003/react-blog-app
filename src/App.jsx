@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import store, { persistor } from "./app/store";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
-import ButtonAppBar from "./components/ButtonAppbar";
 
 function App() {
   const theme = createTheme({
@@ -52,7 +51,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <ButtonAppBar />
             <AppRouter />
           </PersistGate>
         </Provider>
